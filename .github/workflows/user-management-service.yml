@@ -6,10 +6,10 @@ name: User Management Service
 on:
   push:
     branches: [ "main" ]
-    paths: ["r-shows/user-management-service/**"]
+    
   pull_request:
     branches: [ "main" ]
-    paths: ["r-shows/user-management-service/**"]
+  
 permissions:
   contents: read
 

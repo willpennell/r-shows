@@ -1,0 +1,11 @@
+version: '3'
+services:
+  user-management-service:
+    build:
+      context: ./user-management-service
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./user-management-service:/app
+

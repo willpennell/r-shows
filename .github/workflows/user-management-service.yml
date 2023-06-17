@@ -29,6 +29,7 @@ jobs:
         cd user-management-service
     - name: Activate venv
       run: |
+        python -m venv venv
         source venv/bin/activate
     - name: Install dependencies
       run: |

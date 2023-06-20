@@ -8,4 +8,12 @@ services:
       - 8000:8000
     volumes:
       - ./user-management-service:/app
+  user-management-db:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    volumes:
+    - user-management-data:/var/lib/postgresql/data
 
+volumes:
+ user-management-data:

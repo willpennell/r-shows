@@ -29,3 +29,5 @@ This repository contains the Dockerfile and initialization SQL script to set up 
     If the initialization is successful, you should see log messages indicating the creation of the users and tokens tables.
 
 5. Once the container is running and the database is initialized, you can connect to the database using your preferred PostgreSQL client tool (e.g., psql or a GUI tool).
+
+

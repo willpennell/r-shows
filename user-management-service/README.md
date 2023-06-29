@@ -8,7 +8,7 @@ The base URL for all endpoints is: `http://localhost:8000/api/{versionId}`
 
 
 ### 1. Register
-- URL: `/register`
+- URL: `/users/register`
 - Method: POST
 - Description: used to create a new user
 - Request Body:

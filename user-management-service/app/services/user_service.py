@@ -1,11 +1,11 @@
-from app.schemas import UserRegistrationRequest
-from app.models import User
+from app.schemas.user_schemas import UserRegistrationRequest
+from app.models.user import User
 from sqlalchemy.orm import Session
-from password_utils import hash_password
+from app.password_utils import hash_password
 
 class UserService:
     def __init__(self, db: Session):
-        self.db
+        self.db = db
 
     def create_user(self, user_data: UserRegistrationRequest) -> User:
         user = User(

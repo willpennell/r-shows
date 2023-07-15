@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.post("/register", status_code=201)
-async def register_user(request_data: UserRegistrationRequest, db=Depends(get_db)):
+def register_user(request_data: UserRegistrationRequest, db=Depends(get_db)):
     user_service = UserService(db)
     user = user_service.create_user(request_data)
 

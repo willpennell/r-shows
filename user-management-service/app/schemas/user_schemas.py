@@ -9,7 +9,7 @@ class User(BaseModel):
     surname : str
     email : EmailStr
     bio : Optional[str]
-    display_name : str
+    display_name : Optional[str]
     created_at:  datetime
 
 class UserRegistrationRequest(BaseModel):

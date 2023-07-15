@@ -25,3 +25,32 @@ def test_randomness_of_salt_in_hash_password():
     hashed_password2: str = hash_password(password2)
 
     assert hashed_password1 != hashed_password2
+
+def test_hash_password_with_empty_password():
+    password = ""
+    hashed_password = hash_password(password)
+    assert isinstance(hashed_password, str)
+    assert hashed_password != ""
+
+def test_hash_password_with_empty_password():
+    password = ""
+    hashed_password = hash_password(password)
+    assert isinstance(hashed_password, str)
+    assert hashed_password != ""
+
+def test_hash_password_with_empty_password():
+    password = ""
+    hashed_password = hash_password(password)
+    assert isinstance(hashed_password, str)
+    assert hashed_password != ""
+
+def test_hash_password_with_empty_password():
+    password = ""
+    hashed_password = hash_password(password)
+    assert isinstance(hashed_password, str)
+    assert hashed_password != ""
+
+def test_hash_password_max_length_password():
+    password = "a" * 256
+    hashed_password = hash_password(password)
+    assert isinstance(hashed_password, str)

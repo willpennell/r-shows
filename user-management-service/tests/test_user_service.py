@@ -35,6 +35,9 @@ def test_create_user(db, user_data):
 
 def test_that_create_user_calls_add_to_db(db, user_data):
     service = UserService(db)
+
+    db.add.reset_mock()
+
     user = service.create_user(user_data)
 
     assert db.add.called
@@ -43,6 +46,7 @@ def test_that_create_user_calls_commit_to_db(db, user_data):
     service = UserService(db)
     user = service.create_user(user_data)
 
+    db.commit.reset_mock()
     assert db.add.commit
 
 

@@ -1,27 +1,34 @@
-import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
+import pytest
+
+from app.database import Base, get_db
 from app.main import app
-from app.database import Base, test_engine, get_db, TestSessionLocal
 from app.models.user import User
-from app.schemas.user_schemas import UserRegistrationRequest
-from app.services.user_service import UserService
 
 
 @pytest.fixture(scope="module")
-def test_app():
-    # Create the necessary table(s)
-    Base.metadata.create_all(bind=test_engine)
+def test_client():
 
-    # Bind the database to a session
-    TestSessionLocal.configure(bind=test_engine)
 
-    # Create the test client
+    SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}, poolclass=StaticPool)
+    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    Base.metadata.create_all(bind=engine)
+
+    app.dependency_overrides[get_db] = lambda: TestingSessionLocal()
+
     with TestClient(app) as client:
         yield client
 
+    Base.metadata.drop_all(bind=engine)
 
-async def test_register_user(test_app):
-    # Test data
+
+
+def test_register_user(test_client):
+
     user_data = {
         "username": "johndoe123",
         "forenames": "John",
@@ -30,20 +37,15 @@ async def test_register_user(test_app):
         "password": "password123"
     }
 
-    # Clear existing users
-    with get_db(test_db=True) as db:
-        db.query(User).delete()
-        db.commit()
+    response = test_client.post("/users/register", json=user_data)
 
-    # Create a user using the user service
-    with get_db(test_db=True) as db:
-        user_service = UserService(db)
-        user = await user_service.create_user(UserRegistrationRequest(**user_data))
+    print("Response JSON:", response.json())
 
-        # Make an HTTP request to the app's /users/register endpoint
-        response = test_app.post("/users/register", json=user_data)
 
-        # Assertions
-        assert response.status_code == 201
-        assert response.json()["username"] == user.username
-        assert response.json()["email"] == user.email
+    assert response.status_code == 201
+    assert response.json()["success"] == True
+    assert response.json()["response"]["user_id"] == 1
+
+
+
+

@@ -1,25 +1,18 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.ext.declarative import declarative_base
-from contextlib import contextmanager
+from app.config import DATABASE_URL
 
-db_url = 'postgresql://myuser:mypassword@localhost/UserManagement'
-engine = create_engine(db_url)
+
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 Base = declarative_base()
 
-test_db_url = 'sqlite:///:memory:'
-test_engine = create_engine(test_db_url, connect_args={"check_same_thread": False})
-TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
 
-def get_db(test_db: bool = False) -> Session:
-    if test_db:
-        db = TestSessionLocal()
-    else:
-        db = SessionLocal()
+def get_db() -> Session:
+    db = SessionLocal()
     try:
-        yield db
+        return db
     finally:
         db.close()
-
-

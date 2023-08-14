@@ -179,7 +179,82 @@ The base URL for all endpoints is: `http://localhost:8000/api/{versionId}`
             "message": "User not found"
         }
         ```
+## Password Reset
+### 6. Password Reset Request
+- URL: `/password/reset-request`
+- Method: POST
+- Description: Initiate a password reset request by providing the user's email.
+- Request Body:
+   ```json
+   {
+      "email": "john_doe@email.com" // required
+   }
+   ```
+- Response:
+    - 200 OK: Password reset Initiated (email reset link sent to user's email)
+    - 400 Bad Request: Invalid Request parameters
+        ```json
+        {
+        "success": false,
+        "response": {},
+        "message": "Invalid request parameters or missing fields"
+        }
+        ```
+    - 404 Not Found: User not found
+        ```json
+        {
+        "success": false,
+        "response": {},
+        "message": "User not found"
+        }
 
+        ```
+
+### 7. Password Reset Confirmation
+- URL: `/password/reset-confirm`
+- Method: POST
+- Description: Confirm the password reset request by providing the reset token and the new password.
+- Request Body:
+   ```json
+   {
+      "reset_token": "token_received_in_email", // required
+      "new_password": "new_password123" // required
+   }
+- Response:
+    - 200 OK: Password reset successful
+        ```json
+        {
+        "success": true,
+        "response": {},
+        "message": "Password reset successful"
+        }
+        ```
+    - 400 Bad Request: Invalid request parameters or missing fields
+        ```json
+        {
+        "success": false,
+        "response": {},
+        "message": "Invalid request parameters or missing fields"
+        }
+        ```
+    - 401 Unauthorized: Invalid or expired reset token
+        ```json
+        {
+        "success": false,
+        "response": {},
+        "message": "Invalid or expired reset token"
+        }
+
+        ```
+    - 404 Not Found: User not found
+        ```json
+        {
+        "success": false,
+        "response": {},
+        "message": "User not found"
+        }
+
+        ```
 ## Error Handling
 The User Management Service follows standard HTTP status codes and provides appropriate error responses for various scenarios. Common error responses include:
 

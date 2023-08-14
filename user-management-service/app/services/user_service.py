@@ -9,15 +9,30 @@ class UserService:
     def __init__(self, repository: UserRepository):
         self.repository = repository
 
-    def create_user(self, user_data):
+    def create_user(self, user_data) -> User:
         return self.repository.create_user(user_data)
         
-    def get_user(self, user_id):
+    def get_user(self, user_id: int) -> User:
         return self.repository.get_user(user_id)
     
+    def user_exists(self, user_id: int) -> bool:
+        return self.repository.get_user(user_id) is not None
+    
+    def get_user_by_email(self, email: str) -> User:
+        return self.repository.get_user_by_email(email)
+    
+    def user_email_exists(self, email: str) -> bool:
+        return self.repository.get_user_by_email(email) is not None
+    
+    def user_email_available(self, email: str) -> bool:
+        return self.repository.get_user_by_email(email) is None
+    
     def update_user(self, user_id: int, updated_user_data: UserUpdateRequest) -> User:
-        
-            loguru_logger.debug("In update_user()")
+            if not self.user_exists(user_id):
+                loguru_logger.error("User not found")
+                raise ValueError("User not found")
+            
+            loguru_logger.debug("Updating user")
             user: User = self.repository.get_user(user_id)
 
             user.forenames = updated_user_data.forenames
@@ -25,18 +40,24 @@ class UserService:
             user.bio = updated_user_data.bio
             user.display_name = updated_user_data.display_name
 
-            if not self.repository.is_email_available(updated_user_data.email):
+            if self.user_email_exists(updated_user_data.email):
                 loguru_logger.error("Email already in use, bad request")
                 raise ValueError("Email is already in use by another user.")
+            
             user.email = updated_user_data.email
 
+            
             self.repository.commit()
             self.repository.refresh(user)
-                
             return user
+            
         
 
     def partial_update_user(self, user_id: int, updated_user_data: UserPartialUpdateRequest) -> User:
+        if not self.user_exists(user_id):
+                loguru_logger.error("User not found")
+                raise ValueError("User not found")
+
         user: User = self.repository.get_user(user_id)
 
         if updated_user_data.forenames:
@@ -61,3 +82,4 @@ class UserService:
         self.repository.refresh(user)
             
         return user
+    

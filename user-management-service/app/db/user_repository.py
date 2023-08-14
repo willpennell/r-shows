@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.user import User
 from app.password_utils import hash_password
+from sqlalchemy.exc import IntegrityError
 
 class UserRepository:
     def __init__(self, db: Session):
@@ -14,18 +15,20 @@ class UserRepository:
             email=user_data.email,
             password_hash=hash_password(user_data.password)
         )
-        
-        self.db.add(user)
-        self.db.commit()
-    
-        return user
+        try: 
+            self.db.add(user)
+            self.db.commit()
+            return user
+        except IntegrityError:
+            self.db.rollback()
+            raise ValueError("USername or email already exists")
     
     def get_user(self, user_id) -> User:
-        print("In user repo: ", user_id)
         return self.db.query(User).filter(User.id == user_id).first()
     
-    def is_email_available(self, email: str) -> bool:
-        return self.db.query(User).filter(User.email == email).first() is None
+    def get_user_by_email(self, email: str) -> User:
+        return self.db.query(User).filter(User.email == email).first()
+    
     
     def commit(self):
         self.db.commit()

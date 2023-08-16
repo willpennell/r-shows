@@ -21,7 +21,7 @@ class UserRepository:
             return user
         except IntegrityError:
             self.db.rollback()
-            raise ValueError("USername or email already exists")
+            raise ValueError("Username or email already exists")
     
     def get_user(self, user_id) -> User:
         return self.db.query(User).filter(User.id == user_id).first()

@@ -1,5 +1,7 @@
 import smtplib
 from app.config import MAILTRAP_PASSWORD, MAILTRAP_PORT, MAILTRAP_SERVER, MAILTRAP_USERNAME
+from email.mime.text import MIMEText
+from loguru import logger as log
 
 class EmailService:
     def __init__(self):
@@ -10,24 +12,21 @@ class EmailService:
         
     
     def send_email(self, email, reset_token):
-        
+        log.info("In send_email")
         sender = "Private Person <from@example.com>"
         receiver = f"A Test User <{email}>"
         
-        full_message = f"""\
-                        Subject: Hi Mailtrap
-                        To: {receiver}
-                        From: {sender}
+        content = f"this is your link: http://localhost:8000/password/confirm?token={reset_token}"
 
-                        Reset Token: {reset_token}
-                        
-                        Regards,
-                        R-shows 
-                        """
-        
+        message = MIMEText(content)
+        message["Subject"] = "Reset Token"
+        message["From"] = sender
+        message["To"] = receiver
+
         with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
+            log.info("In Mailtrap Server")
             server.login(self.smtp_username, self.smtp_password)
-            server.sendmail(sender, receiver, full_message)
+            server.sendmail(sender, receiver, message.as_string())
 
 
 

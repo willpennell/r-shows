@@ -3,10 +3,10 @@ from app.db.user_repository import UserRepository
 from app.db.password_token_repository import PasswordTokenRepository
 from app.models.password_token import PasswordResetToken
 from app.services.email_service import EmailService
-from app.token_utils import generate_reset_jwt
-from loguru import logger as loguru_logger
+from app.token_utils import generate_reset_jwt, decode_reset_token
+from loguru import logger as log
 from datetime import datetime
-
+import smtplib
 class PasswordService:
     def __init__(self, token_repository: PasswordTokenRepository, user_repository: UserRepository):
         self.token_repository = token_repository
@@ -15,9 +15,9 @@ class PasswordService:
         self.email_service = EmailService()
 
     def generate_token(self, email: str) -> str:
-        loguru_logger.info("In generate token service method.")
+        log.info("In generate token service method.")
         if not self.user_service.user_email_exists(email):
-            loguru_logger.error("Email not found")
+            log.error("Email not found")
             raise ValueError("Email not found")
         expiration = str(datetime.now())
         token = generate_reset_jwt(email, expiration)
@@ -27,11 +27,14 @@ class PasswordService:
             expiration=str(expiration),
             token=token
         )
-        loguru_logger.info("password_reset_token: ", password_reset_token)
+        log.info("password_reset_token: ", password_reset_token)
         
         self.token_repository.create_reset_token(password_reset_token)
-        loguru_logger.info("token created")
+        log.info("token created")
         
-        loguru_logger.info("Sending Email")
+        log.info("Sending Email")
         self.email_service.send_email(email, token)
-        loguru_logger.info("Sent!")
+        log.info("Sent!")
+        
+    def verify_reset_token(self, reset_token: str):
+        decode_reset_token(reset_token)

@@ -19,12 +19,12 @@ class PasswordService:
         if not self.user_service.user_email_exists(email):
             log.error("Email not found")
             raise ValueError("Email not found")
-        expiration = str(datetime.now())
-        token = generate_reset_jwt(email, expiration)
+        expiration = datetime.now()
+        token = generate_reset_jwt(email, expiration.timestamp())
         
         password_reset_token = PasswordResetToken(
             user_email=email,
-            expiration=str(expiration),
+            expiration=expiration,
             token=token
         )
         log.info("password_reset_token: ", password_reset_token)
@@ -36,5 +36,8 @@ class PasswordService:
         self.email_service.send_email(email, token)
         log.info("Sent!")
         
-    def verify_reset_token(self, reset_token: str):
-        decode_reset_token(reset_token)
+    def verify_reset_token(self, reset_token: str) -> bool:
+        if decode_reset_token(reset_token):
+            return True
+        return False
+        

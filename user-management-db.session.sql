@@ -1,2 +1,3 @@
-SELECT * FROM password_reset_tokens;
+SELECT * FROM users;
+
 

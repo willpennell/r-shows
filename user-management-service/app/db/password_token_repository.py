@@ -14,7 +14,11 @@ class PasswordTokenRepository:
             self.db.rollback()
             raise ValueError("Could not create token")
         
-    def get_reset_token(self, token_id: int) -> PasswordResetToken:
-        return self.db.query(PasswordResetToken).get(token_id)
+    def get_reset_token(self, token: str) -> PasswordResetToken:
+        return self.db.query(PasswordResetToken).get(token)
     
-    
+    def commit(self):
+        self.db.commit()
+
+    def refresh(self, obj):
+        self.db.refresh(obj)

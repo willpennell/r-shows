@@ -1,0 +1,77 @@
+Date : 2023-08-20 18:56:43
+Directory : /Users/willp/Documents/2023/dev/projects/r-shows
+Total : 34 files,  1164 codes, 16 comments, 282 blanks, all 1462 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| Python           |         24 |        737 |          0 |        229 |        966 |
+| Markdown         |          3 |        282 |          0 |         30 |        312 |
+| YAML             |          2 |         61 |          4 |          7 |         72 |
+| SQL              |          2 |         40 |          4 |          5 |         49 |
+| pip requirements |          1 |         30 |          0 |          1 |         31 |
+| Docker           |          2 |         14 |          8 |         10 |         32 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                           | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                              |         34 |      1,164 |         16 |        282 |      1,462 |
+| . (Files)                                                                                                      |          3 |         21 |          0 |          3 |         24 |
+| .github                                                                                                        |          1 |         43 |          4 |          6 |         53 |
+| .github/workflows                                                                                              |          1 |         43 |          4 |          6 |         53 |
+| user-management-service                                                                                        |         30 |      1,100 |         12 |        273 |      1,385 |
+| user-management-service (Files)                                                                                |          3 |        296 |          7 |         23 |        326 |
+| user-management-service/app                                                                                    |         18 |        516 |          0 |        154 |        670 |
+| user-management-service/app (Files)                                                                            |          4 |         78 |          0 |         27 |        105 |
+| user-management-service/app/db                                                                                 |          3 |         63 |          0 |         21 |         84 |
+| user-management-service/app/models                                                                             |          3 |         37 |          0 |          8 |         45 |
+| user-management-service/app/routers                                                                            |          2 |        136 |          0 |         40 |        176 |
+| user-management-service/app/schemas                                                                            |          3 |         45 |          0 |          9 |         54 |
+| user-management-service/app/services                                                                           |          3 |        157 |          0 |         49 |        206 |
+| user-management-service/database                                                                               |          3 |         67 |          5 |         21 |         93 |
+| user-management-service/tests                                                                                  |          6 |        221 |          0 |         75 |        296 |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                                                       | language         | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /Users/willp/Documents/2023/dev/projects/r-shows/.github/workflows/user-management-service.yml                 | YAML             |         43 |          4 |          6 |         53 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/README.md                                                     | Markdown         |          2 |          0 |          0 |          2 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/docker-compose.yml                                            | YAML             |         18 |          0 |          1 |         19 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-db.session.sql                                | SQL              |          1 |          0 |          2 |          3 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/Dockerfile                            | Docker           |          7 |          7 |          5 |         19 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/README.md                             | Markdown         |        259 |          0 |         17 |        276 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/database.py                       | Python           |         13 |          0 |          6 |         19 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/db/activation_token_repository.py | Python           |         21 |          0 |          8 |         29 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/db/password_token_repository.py   | Python           |         19 |          0 |          5 |         24 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/db/user_repository.py             | Python           |         23 |          0 |          8 |         31 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/main.py                           | Python           |         10 |          0 |          6 |         16 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/models/activation_token.py        | Python           |         11 |          0 |          4 |         15 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/models/password_token.py          | Python           |         10 |          0 |          2 |         12 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/models/user.py                    | Python           |         16 |          0 |          2 |         18 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/password_utils.py                 | Python           |          7 |          0 |          3 |         10 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/routers/password_reset_router.py  | Python           |         45 |          0 |         11 |         56 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/routers/user_router.py            | Python           |         91 |          0 |         29 |        120 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/schemas/password_reset_schema.py  | Python           |          7 |          0 |          2 |          9 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/schemas/response_schema.py        | Python           |          6 |          0 |          1 |          7 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/schemas/user_schemas.py           | Python           |         32 |          0 |          6 |         38 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/services/email_service.py         | Python           |         28 |          0 |          9 |         37 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/services/password_service.py      | Python           |         39 |          0 |          6 |         45 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/services/user_service.py          | Python           |         90 |          0 |         34 |        124 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/app/token_utils.py                    | Python           |         48 |          0 |         12 |         60 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/database/Dockerfile                   | Docker           |          7 |          1 |          5 |         13 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/database/README.md                    | Markdown         |         21 |          0 |         13 |         34 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/database/init.sql                     | SQL              |         39 |          4 |          3 |         46 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/requirements.txt                      | pip requirements |         30 |          0 |          1 |         31 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/tests/test_integration.py             | Python           |         31 |          0 |         21 |         52 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/tests/test_password_repository.py     | Python           |          0 |          0 |          1 |          1 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/tests/test_password_utils.py          | Python           |         44 |          0 |         13 |         57 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/tests/test_user_repository.py         | Python           |          0 |          0 |          1 |          1 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/tests/test_user_router.py             | Python           |         86 |          0 |         21 |        107 |
+| /Users/willp/Documents/2023/dev/projects/r-shows/user-management-service/tests/test_user_service.py            | Python           |         60 |          0 |         18 |         78 |
+| Total                                                                                                          |                  |      1,164 |         16 |        282 |      1,462 |
++----------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+

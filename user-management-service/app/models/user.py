@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, func
+from sqlalchemy import Column, Integer, String, Text, DateTime, func, Boolean
 from app.database import Base
 
 class User(Base):
@@ -14,3 +14,5 @@ class User(Base):
     display_name = Column(String(255))
     created_at = Column(DateTime(timezone=True), default=func.now())
     updated_at = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
+    active = Column(Boolean, default=False)
+    deleted = Column(Boolean, default=False)

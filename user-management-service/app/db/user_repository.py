@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.user import User
 from app.password_utils import hash_password
 from sqlalchemy.exc import IntegrityError
-
+from loguru import logger as log
 class UserRepository:
     def __init__(self, db: Session):
         self.db = db

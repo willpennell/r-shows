@@ -15,7 +15,7 @@ class PasswordTokenRepository:
             raise ValueError("Could not create token")
         
     def get_reset_token(self, token: str) -> PasswordResetToken:
-        return self.db.query(PasswordResetToken).get(token)
+        return self.db.query(PasswordResetToken).filter(PasswordResetToken.token == token).first()
     
     def commit(self):
         self.db.commit()

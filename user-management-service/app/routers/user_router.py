@@ -9,7 +9,8 @@ from app.database import get_db
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError, OperationalError
 from loguru import logger as log
-
+from fastapi.security import OAuth2PasswordBearer
+from app.services.auth_service import AuthService
 
 
 from app.db.user_repository import UserRepository
@@ -19,6 +20,7 @@ router = APIRouter(
     tags=["users"]
 )
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 @router.post("/register", status_code=status.HTTP_201_CREATED, response_model=ResponseBody)
 def register_user(request_data: UserRegistrationRequest, db: Session = Depends(get_db)) -> ResponseBody:
@@ -55,7 +57,7 @@ def register_user(request_data: UserRegistrationRequest, db: Session = Depends(g
 
 
 @router.get("/{user_id}", status_code=status.HTTP_200_OK, response_model=ResponseBody)
-def get_user_by_id(user_id: int, db: Session = Depends(get_db)) -> ResponseBody:
+def get_user_by_id(user_id: int, db: Session = Depends(get_db), token: str = Depends(get_current_user())) -> ResponseBody:
     try:
         user_repository = UserRepository(db)
         user_service = UserService(user_repository)
@@ -88,7 +90,7 @@ def get_user_by_id(user_id: int, db: Session = Depends(get_db)) -> ResponseBody:
         )
 
 @router.put("/{user_id}", status_code=status.HTTP_200_OK, response_model=ResponseBody)
-def update_user_by_id(user_id: int, updated_user_data: UserUpdateRequest, db: Session = Depends(get_db)) -> ResponseBody:
+def update_user_by_id(user_id: int, updated_user_data: UserUpdateRequest, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)) -> ResponseBody:
     try:
         log.info("user_router - update user (PUT)")
         user_repository = UserRepository(db)
@@ -130,7 +132,7 @@ def update_user_by_id(user_id: int, updated_user_data: UserUpdateRequest, db: Se
         )
 
 @router.patch("/{user_id}", status_code=status.HTTP_200_OK, response_model=ResponseBody)
-def partial_update_user_by_id(user_id: int, updated_user_data: UserPartialUpdateRequest, db: Session = Depends(get_db)) -> ResponseBody:
+def partial_update_user_by_id(user_id: int, updated_user_data: UserPartialUpdateRequest, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)) -> ResponseBody:
     try:
         user_repository = UserRepository(db)
         user_service = UserService(user_repository)
@@ -214,7 +216,7 @@ def resend_activation_token(request_body: ActivationRequest, db: Session = Depen
         )
         
 @router.get("/{user_id}/deactivate", status_code=status.HTTP_204_NO_CONTENT)
-def deactivate_account(user_id: int, db:Session = Depends(get_db)):
+def deactivate_account(user_id: int, db:Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     try: 
         user_repository = UserRepository(db)
         activation_repository = ActivationTokenRepository(db)
@@ -237,7 +239,7 @@ def deactivate_account(user_id: int, db:Session = Depends(get_db)):
         )
 
 @router.delete("/{user_id}/delete", status_code=status.HTTP_204_NO_CONTENT)
-def deactivate_user(user_id: int, db:Session = Depends(get_db)):
+def delete_user(user_id: int, db:Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     try: 
         user_repository = UserRepository(db)
         activation_repository = ActivationTokenRepository(db)
@@ -257,3 +259,12 @@ def deactivate_user(user_id: int, db:Session = Depends(get_db)):
             status_code=500,
             detail="Internal Error"
         )
+        
+
+def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
+    try:
+        auth_service = AuthService()
+        user_data = auth_service.validate_token(token)
+        return user_data
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")

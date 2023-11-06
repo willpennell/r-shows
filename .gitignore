@@ -2,3 +2,5 @@
 **/.DS_Store
 **/__pycache__
 user-management-service/venv/
+**/app.log
+**/config.py
